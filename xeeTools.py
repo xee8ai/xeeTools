@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 '''A module holding some functions frequently used by me.'''
 
 from pprint import pprint
