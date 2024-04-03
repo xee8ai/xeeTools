@@ -26,13 +26,13 @@ def dd(*data):
         the_class = the_class.split("'")[1]
         the_method = stack[1][0].f_code.co_name
         print("called by:")
-        print("{}.{}()".format(str(the_class), the_method))
+        print(f"{str(the_class)}.{the_method}()")
     else:
         print("called from")
 
     # get the caller's metadata: file and line
     tb = traceback.extract_stack(limit=2)
-    print("{}, line {}".format(tb[0][0], tb[0][1]))
+    print(f"{tb[0][0]}, line {tb[0][1]}")
     print()
 
     # pretty print all given data
@@ -40,7 +40,7 @@ def dd(*data):
         print()
         print(80 * "=")
         print()
-        the_type = "Argument {} is of type {}".format(i, type(d))
+        the_type = f"Argument {i} is of type {type(d)}"
         print(the_type)
         print(len(the_type) * "-")
         pprint(d)
@@ -61,8 +61,8 @@ def ex_to_str(ex):
     Use e.g. to create meaningful log entries."""
 
     # get type and message of risen exception
-    ex_type = "{}".format(type(ex)).split("'")[1]
-    ex_msg = "{}".format(ex)
+    ex_type = f"{type(ex).__name__}"
+    ex_args = ', '.join(ex.args)
 
     # get the command where the exception has been raised
     tb = traceback.extract_tb(sys.exc_info()[2], limit=2)
@@ -71,9 +71,7 @@ def ex_to_str(ex):
     ex_line = tb[0][1]
 
     # the string (one liner) to return
-    nice_ex = '{} ({}) raised executing "{}" in {}, line {}'.format(
-        ex_type, ex_msg, ex_cmd, ex_file, ex_line
-    )
+    nice_ex = f"{ex_type} ({ex_args}) raised executing '{ex_cmd}' in {ex_file}, line {ex_line}"
 
     return nice_ex
 
