@@ -62,7 +62,7 @@ def ex_to_str(ex):
 
     # get type and message of risen exception
     ex_type = f"{type(ex).__name__}"
-    ex_args = ', '.join(ex.args)
+    ex_args = ', '.join(map(str, ex.args))  # may contain e.g. ints
 
     # get the command where the exception has been raised
     tb = traceback.extract_tb(sys.exc_info()[2], limit=2)
@@ -91,6 +91,10 @@ def seconds_to_timestring(seconds):
 if __name__ == "__main__":
 
     # test the exception converter
+    print()
+    print(80 * '#')
+    print("Testing exception")
+    print()
     try:
         a = 3 - 3
         b = 1 / a
@@ -99,6 +103,23 @@ if __name__ == "__main__":
         print(ex_to_str(ex))
         # raise
 
+    # test the exception converter
+    print()
+    print(80 * '#')
+    print("Testing exception having int inside the tupel")
+    print()
+    try:
+        with open('dac725e6-47ca-46de-80e7-a78d9a136129/0a2ec5b6-779d-4df4-a83f-1aabeac9f931') as fh:
+            pass
+    except Exception as ex:
+        print(ex_to_str(ex))
+
     # test dd last because it ends the script :-)
+    print()
+    print(80 * '#')
+    print("Testing dd()")
+    print()
     l = ["foo", "bar", 42]
     dd("test", l)
+
+    print()
