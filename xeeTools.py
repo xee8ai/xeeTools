@@ -2,9 +2,11 @@
 
 """A module holding some functions frequently used by me."""
 
+from functools import wraps
 from pprint import pprint
 import inspect
 import sys
+import time
 import traceback
 
 
@@ -114,6 +116,25 @@ def error(msg):
 
 
 ################################################################################
+def timeit(func):
+    """
+    Decorator to print how long a function was running.
+    """
+    @wraps(func)    # needed to get func.__name__ of the wrapped function
+    def wrapper(*args, **kwargs):
+        start_time = time.perf_counter()
+        result = func(*args, **kwargs)
+        end_time = time.perf_counter()
+        runtime = end_time - start_time
+        print(f"Function “{func.__name__}()” finished in {runtime:.4f} seconds.")
+        return result
+    return wrapper
+
+@timeit
+def _run_one_sec():
+    time.sleep(1)
+
+################################################################################
 ################################################################################
 ################################################################################
 if __name__ == "__main__":
@@ -142,6 +163,12 @@ if __name__ == "__main__":
     except Exception as ex:
         print(ex_to_str(ex))
 
+    print()
+    print(80 * '#')
+    print("Testing timeit() decorator")
+    print()
+    _run_one_sec()
+
     # test dd last because it ends the script :-)
     print()
     print(80 * '#')
@@ -149,5 +176,3 @@ if __name__ == "__main__":
     print()
     l = ["foo", "bar", 42]
     dd("test", l)
-
-    print()
