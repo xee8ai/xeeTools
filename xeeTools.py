@@ -121,13 +121,13 @@ def timeit(func):
     Decorator to print how long a function was running.
     """
 
-    @wraps(func)  # needed to get func.__name__ of the wrapped function
+    @wraps(func)  # needed to get func.__qualname__ of the wrapped function
     def wrapper(*args, **kwargs):
         start_time = time.perf_counter()
         result = func(*args, **kwargs)
         end_time = time.perf_counter()
         runtime = end_time - start_time
-        print(f"Function “{func.__name__}()” finished in {runtime:.4f} seconds.")
+        print(f"Function “{func.__qualname__}()” finished in {runtime:.4f} seconds.")
         return result
 
     return wrapper
